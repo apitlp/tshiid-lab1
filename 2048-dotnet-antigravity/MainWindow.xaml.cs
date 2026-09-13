@@ -33,9 +33,24 @@ public partial class MainWindow : Window
             {
                 vm.PropertyChanged += (s, e) =>
                 {
-                    if (e.PropertyName == nameof(MainViewModel.IsMenuVisible) && !vm.IsMenuVisible)
+                    if (e.PropertyName == nameof(MainViewModel.IsMenuVisible))
                     {
-                        Focus();
+                        if (vm.IsMenuVisible)
+                        {
+                            GridSizeBox.Focus();
+                            GridSizeBox.SelectAll();
+                        }
+                        else
+                        {
+                            Focus();
+                        }
+                    }
+                    else if (e.PropertyName == nameof(MainViewModel.IsPaused))
+                    {
+                        if (!vm.IsPaused && !vm.IsMenuVisible)
+                        {
+                            Focus();
+                        }
                     }
                 };
             }
@@ -53,12 +68,28 @@ public partial class MainWindow : Window
 
         if (e.Key == Key.Escape)
         {
-            vm.ExecuteQuit();
+            if (vm.IsMenuVisible)
+            {
+                // In starting menu, Escape quits application
+                vm.ExecuteQuit();
+            }
+            else if (vm.IsPaused)
+            {
+                // In pause menu, Escape resumes game
+                vm.ExecuteResume();
+            }
+            else
+            {
+                // During tile matching, Escape opens pause menu
+                vm.ExecutePause();
+            }
+
             e.Handled = true;
             return;
         }
 
-        if (vm.IsMenuVisible)
+        // If either starting menu or pause menu is active, do not process tile movement or undo keys
+        if (vm.IsMenuVisible || vm.IsPaused)
         {
             return;
         }

@@ -150,5 +150,34 @@
                 </ItemsControl>
             </Border>
         </Viewbox>
+
+        <!-- In-Game Pause Menu Overlay -->
+        <Grid Visibility="{Binding IsPaused, Converter={StaticResource BoolToVis}}"
+              Background="#D992877d"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="260">
+                <TextBlock Text="PAUSED"
+                           FontFamily="Verdana"
+                           FontWeight="Bold"
+                           FontSize="36"
+                           Foreground="#f9f6f2"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,25" />
+
+                <Button Content="Resume"
+                        Style="{StaticResource GameButtonStyle}"
+                        Command="{Binding ResumeCommand}"
+                        Width="130"
+                        Height="42"
+                        Margin="0,0,0,12" />
+
+                <Button Content="Exit"
+                        Style="{StaticResource GameButtonStyle}"
+                        Command="{Binding ExitToMenuCommand}"
+                        Width="130"
+                        Height="42" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

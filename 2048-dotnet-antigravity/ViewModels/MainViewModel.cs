@@ -15,6 +15,7 @@ public class MainViewModel : ViewModelBase
     private GameEngine _engine;
     private GameState _gameState;
     private bool _isMenuVisible = true;
+    private bool _isPaused;
     private string _gridSizeInput = DefaultGridSize.ToString();
     private string? _errorMessage;
 
@@ -32,6 +33,12 @@ public class MainViewModel : ViewModelBase
                 OnPropertyChanged(nameof(IsGameVisible));
             }
         }
+    }
+
+    public bool IsPaused
+    {
+        get => _isPaused;
+        set => SetProperty(ref _isPaused, value);
     }
 
     public bool IsGameVisible => !_isMenuVisible;
@@ -55,6 +62,9 @@ public class MainViewModel : ViewModelBase
     }
 
     public ICommand StartGameCommand { get; }
+    public ICommand PauseCommand { get; }
+    public ICommand ResumeCommand { get; }
+    public ICommand ExitToMenuCommand { get; }
     public ICommand MoveCommand { get; }
     public ICommand UndoCommand { get; }
     public ICommand NewGameCommand { get; }
@@ -72,15 +82,19 @@ public class MainViewModel : ViewModelBase
         InitializeTiles(_engine.Size);
 
         StartGameCommand = new RelayCommand(ExecuteStartGame);
+        PauseCommand = new RelayCommand(ExecutePause, () => !IsMenuVisible && !IsPaused);
+        ResumeCommand = new RelayCommand(ExecuteResume, () => IsPaused);
+        ExitToMenuCommand = new RelayCommand(ExecuteExitToMenu, () => IsPaused);
+
         MoveCommand = new RelayCommand<Direction?>(dir =>
         {
-            if (dir.HasValue && !IsMenuVisible)
+            if (dir.HasValue && !IsMenuVisible && !IsPaused)
             {
                 ExecuteMove(dir.Value);
             }
         });
 
-        UndoCommand = new RelayCommand(ExecuteUndo, () => !IsMenuVisible && _engine.CanUndo);
+        UndoCommand = new RelayCommand(ExecuteUndo, () => !IsMenuVisible && !IsPaused && _engine.CanUndo);
         NewGameCommand = new RelayCommand(ExecuteNewGame);
         QuitCommand = new RelayCommand(ExecuteQuit);
 
@@ -110,6 +124,7 @@ public class MainViewModel : ViewModelBase
             }
 
             ErrorMessage = null;
+            IsPaused = false;
             _engine = new GameEngine(size);
             InitializeTiles(size);
             OnPropertyChanged(nameof(GridSize));
@@ -120,6 +135,25 @@ public class MainViewModel : ViewModelBase
         {
             ErrorMessage = $"Error starting game: {ex.Message}";
         }
+    }
+
+    public void ExecutePause()
+    {
+        if (!IsMenuVisible)
+        {
+            IsPaused = true;
+        }
+    }
+
+    public void ExecuteResume()
+    {
+        IsPaused = false;
+    }
+
+    public void ExecuteExitToMenu()
+    {
+        IsPaused = false;
+        IsMenuVisible = true;
     }
 
     private void InitializeTiles(int size)
@@ -136,7 +170,7 @@ public class MainViewModel : ViewModelBase
 
     public void ExecuteMove(Direction direction)
     {
-        if (IsMenuVisible) return;
+        if (IsMenuVisible || IsPaused) return;
 
         bool moved = _engine.Move(direction);
         if (moved)
@@ -147,7 +181,7 @@ public class MainViewModel : ViewModelBase
 
     public void ExecuteUndo()
     {
-        if (IsMenuVisible) return;
+        if (IsMenuVisible || IsPaused) return;
 
         if (_engine.Undo())
         {
