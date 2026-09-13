@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GvKRnyYhpdU=",
+  "dgSpecHash": "thADARZBNlU=",
   "success": true,
-  "projectFilePath": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj",
+  "projectFilePath": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",

@@ -104,28 +104,50 @@ public sealed class GameBoard
 
     public GameState GetState()
     {
+        if (HasWinningTile())
+        {
+            return GameState.Won;
+        }
+
+        return HasEmptyCell() || HasAdjacentEqualTiles()
+            ? GameState.Playing
+            : GameState.Lost;
+    }
+
+    private bool HasWinningTile()
+    {
         for (var row = 0; row < Size; row++)
         {
             for (var column = 0; column < Size; column++)
             {
                 if (cells[row, column] == 2048)
                 {
-                    return GameState.Won;
+                    return true;
                 }
             }
         }
 
+        return false;
+    }
+
+    private bool HasEmptyCell()
+    {
         for (var row = 0; row < Size; row++)
         {
             for (var column = 0; column < Size; column++)
             {
                 if (cells[row, column] == 0)
                 {
-                    return GameState.Playing;
+                    return true;
                 }
             }
         }
 
+        return false;
+    }
+
+    private bool HasAdjacentEqualTiles()
+    {
         for (var row = 0; row < Size; row++)
         {
             for (var column = 0; column < Size; column++)
@@ -133,12 +155,12 @@ public sealed class GameBoard
                 if (row + 1 < Size && cells[row, column] == cells[row + 1, column] ||
                     column + 1 < Size && cells[row, column] == cells[row, column + 1])
                 {
-                    return GameState.Playing;
+                    return true;
                 }
             }
         }
 
-        return GameState.Lost;
+        return false;
     }
 
     private void AddTwo()

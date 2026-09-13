@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj": {}
+    "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj": {}
   },
   "projects": {
-    "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj": {
+    "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj",
+        "projectUniqueName": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj",
         "projectName": "Game2048.Tests",
-        "projectPath": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj",
+        "projectPath": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\Game2048.Tests.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\obj\\",
+        "outputPath": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,13 +33,14 @@
             "framework": "net10.0-windows7.0",
             "targetAlias": "net10.0-windows",
             "projectReferences": {
-              "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj": {
-                "projectPath": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj"
+              "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj": {
+                "projectPath": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj"
               }
             }
           }
         },
         "warningProperties": {
+          "allWarningsAsErrors": true,
           "warnAsError": [
             "NU1605"
           ]
@@ -367,14 +368,14 @@
         }
       }
     },
-    "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj": {
+    "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj",
+        "projectUniqueName": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj",
         "projectName": "Game2048",
-        "projectPath": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj",
+        "projectPath": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\obj\\",
+        "outputPath": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -399,6 +400,7 @@
           }
         },
         "warningProperties": {
+          "allWarningsAsErrors": true,
           "warnAsError": [
             "NU1605"
           ]

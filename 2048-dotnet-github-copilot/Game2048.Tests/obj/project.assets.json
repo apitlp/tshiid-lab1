@@ -965,13 +965,14 @@
           "framework": "net10.0-windows7.0",
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj": {
-              "projectPath": "d:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj"
+            "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj": {
+              "projectPath": "D:\\pz_applications\\tshiid\\lab1\\2048-dotnet-github-copilot\\Game2048\\Game2048.csproj"
             }
           }
         }
       },
       "warningProperties": {
+        "allWarningsAsErrors": true,
         "warnAsError": [
           "NU1605"
         ]
