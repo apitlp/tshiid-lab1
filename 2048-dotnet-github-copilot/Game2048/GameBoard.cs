@@ -34,7 +34,7 @@ public sealed class GameBoard
         AddTwo();
     }
 
-    private GameBoard(int size, int[,] snapshot, Random random)
+    internal GameBoard(int size, int[,] snapshot, Random random)
     {
         Size = size;
         cells = new int[Size, Size];
