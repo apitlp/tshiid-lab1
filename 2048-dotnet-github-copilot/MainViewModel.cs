@@ -62,16 +62,20 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private string gridSizeInput = "4";
     private string inputError = string.Empty;
     private bool isGameVisible;
+    private bool isPaused;
 
     public MainViewModel()
     {
-        UpCommand = new RelayCommand(() => Move(Direction.Up));
-        DownCommand = new RelayCommand(() => Move(Direction.Down));
-        LeftCommand = new RelayCommand(() => Move(Direction.Left));
-        RightCommand = new RelayCommand(() => Move(Direction.Right));
+        UpCommand = new RelayCommand(() => Move(Direction.Up), CanPlay);
+        DownCommand = new RelayCommand(() => Move(Direction.Down), CanPlay);
+        LeftCommand = new RelayCommand(() => Move(Direction.Left), CanPlay);
+        RightCommand = new RelayCommand(() => Move(Direction.Right), CanPlay);
         UndoCommand = new RelayCommand(Undo, () => IsGameVisible && history.Count > 1);
         StartCommand = new RelayCommand(StartGame);
         ExitCommand = new RelayCommand(() => System.Windows.Application.Current.Shutdown());
+        TogglePauseCommand = new RelayCommand(TogglePause, () => IsGameVisible);
+        ResumeCommand = new RelayCommand(ResumeGame, () => IsPaused);
+        ExitToMenuCommand = new RelayCommand(ExitToMenu, () => IsPaused);
     }
 
     public ObservableCollection<TileViewModel> Tiles { get; } = [];
@@ -109,6 +113,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     public bool IsMenuVisible => !IsGameVisible;
 
+    public bool IsPauseVisible => IsGameVisible && IsPaused;
+
     public int BoardSize => board?.Size ?? 4;
 
     public bool IsGameVisible
@@ -125,7 +131,24 @@ public sealed class MainViewModel : INotifyPropertyChanged
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsMenuVisible));
             OnPropertyChanged(nameof(BoardSize));
-            UndoCommand.Refresh();
+            RefreshCommands();
+        }
+    }
+
+    public bool IsPaused
+    {
+        get => isPaused;
+        private set
+        {
+            if (isPaused == value)
+            {
+                return;
+            }
+
+            isPaused = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsPauseVisible));
+            RefreshCommands();
         }
     }
 
@@ -151,6 +174,9 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public RelayCommand UndoCommand { get; }
     public ICommand StartCommand { get; }
     public ICommand ExitCommand { get; }
+    public RelayCommand TogglePauseCommand { get; }
+    public RelayCommand ResumeCommand { get; }
+    public RelayCommand ExitToMenuCommand { get; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -173,6 +199,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
         Status = string.Empty;
         InputError = string.Empty;
+        IsPaused = false;
         IsGameVisible = true;
         RefreshTiles();
     }
@@ -192,7 +219,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
             GameState.Lost => "You Lose!",
             _ => string.Empty
         };
-        UndoCommand.Refresh();
+        RefreshCommands();
     }
 
     private void Undo()
@@ -206,7 +233,41 @@ public sealed class MainViewModel : INotifyPropertyChanged
         board = history[^1].Clone();
         Status = string.Empty;
         RefreshTiles();
+        RefreshCommands();
+    }
+
+    private void TogglePause()
+    {
+        IsPaused = !IsPaused;
+    }
+
+    private void ResumeGame()
+    {
+        IsPaused = false;
+    }
+
+    private void ExitToMenu()
+    {
+        IsPaused = false;
+        IsGameVisible = false;
+        board = null;
+        history.Clear();
+        Tiles.Clear();
+        Status = string.Empty;
+    }
+
+    private bool CanPlay() => IsGameVisible && !IsPaused;
+
+    private void RefreshCommands()
+    {
+        ((RelayCommand)UpCommand).Refresh();
+        ((RelayCommand)DownCommand).Refresh();
+        ((RelayCommand)LeftCommand).Refresh();
+        ((RelayCommand)RightCommand).Refresh();
         UndoCommand.Refresh();
+        TogglePauseCommand.Refresh();
+        ResumeCommand.Refresh();
+        ExitToMenuCommand.Refresh();
     }
 
     private void RefreshTiles()

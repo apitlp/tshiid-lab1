@@ -39,7 +39,7 @@
         <KeyBinding Key="B"
                     Command="{Binding UndoCommand}"/>
         <KeyBinding Key="Escape"
-                    Command="{Binding ExitCommand}"/>
+                    Command="{Binding TogglePauseCommand}"/>
     </Window.InputBindings>
     <Grid Margin="20">
         <Grid Visibility="{Binding IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -73,8 +73,8 @@
                            Foreground="#b23b2e"
                            TextAlignment="Center"/>
                 <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Margin="0,14,0,0">
+                            HorizontalAlignment="Center"
+                            Margin="0,14,0,0">
                     <Button Content="Start"
                             Command="{Binding StartCommand}"
                             Width="110"
@@ -142,6 +142,34 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Border>
+
+            <Grid Grid.RowSpan="3"
+                  Background="#ccfaf8ef"
+                  Visibility="{Binding IsPauseVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Paused"
+                               FontFamily="Verdana"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               Foreground="#776e65"
+                               HorizontalAlignment="Center"/>
+                    <Button Content="Resume"
+                            Command="{Binding ResumeCommand}"
+                            Width="140"
+                            Height="38"
+                            Margin="0,20,0,8"
+                            FontFamily="Verdana"
+                            FontSize="16"/>
+                    <Button Content="Exit"
+                            Command="{Binding ExitToMenuCommand}"
+                            Width="140"
+                            Height="38"
+                            Margin="0,8,0,0"
+                            FontFamily="Verdana"
+                            FontSize="16"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
