@@ -17,26 +17,36 @@ public enum GameState
 
 public sealed class GameBoard
 {
-    public const int Size = 4;
-    private readonly int[,] cells = new int[Size, Size];
+    private readonly int[,] cells;
     private readonly Random random;
 
-    public GameBoard(Random? random = null)
+    public GameBoard(int size, Random? random = null)
     {
+        if (size < 2)
+        {
+            throw new ArgumentOutOfRangeException(nameof(size), "The board size must be at least 2.");
+        }
+
+        Size = size;
+        cells = new int[Size, Size];
         this.random = random ?? Random.Shared;
         AddTwo();
         AddTwo();
     }
 
-    private GameBoard(int[,] snapshot, Random random)
+    private GameBoard(int size, int[,] snapshot, Random random)
     {
+        Size = size;
+        cells = new int[Size, Size];
         this.random = random;
         Array.Copy(snapshot, cells, snapshot.Length);
     }
 
+    public int Size { get; }
+
     public int this[int row, int column] => cells[row, column];
 
-    public GameBoard Clone() => new(cells, random);
+    public GameBoard Clone() => new(Size, cells, random);
 
     public int[,] Snapshot()
     {
@@ -173,7 +183,7 @@ public sealed class GameBoard
         }
     }
 
-    private static (int Row, int Column) Coordinates(Direction direction, int line, int position) =>
+    private (int Row, int Column) Coordinates(Direction direction, int line, int position) =>
         direction switch
         {
             Direction.Left => (line, position),

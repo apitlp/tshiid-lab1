@@ -57,26 +57,77 @@ public sealed class TileViewModel : INotifyPropertyChanged
 public sealed class MainViewModel : INotifyPropertyChanged
 {
     private readonly List<GameBoard> history = [];
-    private GameBoard board = new();
+    private GameBoard? board;
     private string status = string.Empty;
+    private string gridSizeInput = "4";
+    private string inputError = string.Empty;
+    private bool isGameVisible;
 
     public MainViewModel()
     {
-        for (var index = 0; index < GameBoard.Size * GameBoard.Size; index++)
-        {
-            Tiles.Add(new TileViewModel());
-        }
-
         UpCommand = new RelayCommand(() => Move(Direction.Up));
         DownCommand = new RelayCommand(() => Move(Direction.Down));
         LeftCommand = new RelayCommand(() => Move(Direction.Left));
         RightCommand = new RelayCommand(() => Move(Direction.Right));
-        UndoCommand = new RelayCommand(Undo, () => history.Count > 1);
-        QuitCommand = new RelayCommand(() => System.Windows.Application.Current.Shutdown());
-        RefreshTiles();
+        UndoCommand = new RelayCommand(Undo, () => IsGameVisible && history.Count > 1);
+        StartCommand = new RelayCommand(StartGame);
+        ExitCommand = new RelayCommand(() => System.Windows.Application.Current.Shutdown());
     }
 
     public ObservableCollection<TileViewModel> Tiles { get; } = [];
+
+    public string GridSizeInput
+    {
+        get => gridSizeInput;
+        set
+        {
+            if (gridSizeInput == value)
+            {
+                return;
+            }
+
+            gridSizeInput = value;
+            InputError = string.Empty;
+            OnPropertyChanged();
+        }
+    }
+
+    public string InputError
+    {
+        get => inputError;
+        private set
+        {
+            if (inputError == value)
+            {
+                return;
+            }
+
+            inputError = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IsMenuVisible => !IsGameVisible;
+
+    public int BoardSize => board?.Size ?? 4;
+
+    public bool IsGameVisible
+    {
+        get => isGameVisible;
+        private set
+        {
+            if (isGameVisible == value)
+            {
+                return;
+            }
+
+            isGameVisible = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsMenuVisible));
+            OnPropertyChanged(nameof(BoardSize));
+            UndoCommand.Refresh();
+        }
+    }
 
     public string Status
     {
@@ -98,13 +149,37 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public ICommand LeftCommand { get; }
     public ICommand RightCommand { get; }
     public RelayCommand UndoCommand { get; }
-    public ICommand QuitCommand { get; }
+    public ICommand StartCommand { get; }
+    public ICommand ExitCommand { get; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    private void StartGame()
+    {
+        if (!int.TryParse(GridSizeInput, out var size) || size is < 2 or > 10)
+        {
+            InputError = "Enter a whole number from 2 to 10.";
+            return;
+        }
+
+        board = new GameBoard(size);
+        history.Clear();
+        history.Add(board.Clone());
+        Tiles.Clear();
+        for (var index = 0; index < size * size; index++)
+        {
+            Tiles.Add(new TileViewModel());
+        }
+
+        Status = string.Empty;
+        InputError = string.Empty;
+        IsGameVisible = true;
+        RefreshTiles();
+    }
+
     private void Move(Direction direction)
     {
-        if (!board.Move(direction))
+        if (board is null || !board.Move(direction))
         {
             return;
         }
@@ -122,7 +197,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private void Undo()
     {
-        if (history.Count <= 1)
+        if (history.Count <= 1 || board is null)
         {
             return;
         }
@@ -136,11 +211,16 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private void RefreshTiles()
     {
-        for (var row = 0; row < GameBoard.Size; row++)
+        if (board is null)
         {
-            for (var column = 0; column < GameBoard.Size; column++)
+            return;
+        }
+
+        for (var row = 0; row < board.Size; row++)
+        {
+            for (var column = 0; column < board.Size; column++)
             {
-                Tiles[row * GameBoard.Size + column].Value = board[row, column];
+                Tiles[row * board.Size + column].Value = board[row, column];
             }
         }
     }
