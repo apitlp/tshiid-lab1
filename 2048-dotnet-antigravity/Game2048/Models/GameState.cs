@@ -1,6 +1,6 @@
 namespace Game2048.Models;
 
-public enum GameState
+internal enum GameState
 {
     NotOver,
     Win,

@@ -1,8 +1,9 @@
+using System.Globalization;
 using System.Windows.Media;
 
 namespace Game2048.ViewModels;
 
-public class TileViewModel : ViewModelBase
+internal class TileViewModel : ViewModelBase
 {
     private int _value;
     private string _displayText = string.Empty;
@@ -45,7 +46,7 @@ public class TileViewModel : ViewModelBase
     public void Update(int value, string? customText = null, string? customBg = null, string? customFg = null)
     {
         Value = value;
-        DisplayText = customText ?? (value == 0 ? string.Empty : value.ToString());
+        DisplayText = customText ?? (value == 0 ? string.Empty : value.ToString(CultureInfo.InvariantCulture));
 
         string bgHex = customBg ?? GameConstants.GetBackgroundColor(value);
         string fgHex = customFg ?? GameConstants.GetForegroundColor(value);

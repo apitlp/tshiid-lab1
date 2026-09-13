@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Game2048;
 
-public static class GameConstants
+internal static class GameConstants
 {
     public const int Size = 400;
     public const int GridLen = 4;

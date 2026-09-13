@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game2048.Models;
 
-public class GameEngine
+internal class GameEngine
 {
     private readonly int _size;
     private readonly Random _random;
@@ -113,6 +113,7 @@ public class GameEngine
 
     public static (int[,] Result, bool Done) CoverUp(int[,] mat)
     {
+        ArgumentNullException.ThrowIfNull(mat);
         int size = mat.GetLength(0);
         int[,] result = new int[size, size];
         bool done = false;
@@ -139,6 +140,7 @@ public class GameEngine
 
     public static (int[,] Result, bool Done) Merge(int[,] mat, bool done)
     {
+        ArgumentNullException.ThrowIfNull(mat);
         int size = mat.GetLength(0);
         int[,] result = (int[,])mat.Clone();
 
@@ -160,6 +162,7 @@ public class GameEngine
 
     public static int[,] Transpose(int[,] mat)
     {
+        ArgumentNullException.ThrowIfNull(mat);
         int rows = mat.GetLength(0);
         int cols = mat.GetLength(1);
         int[,] result = new int[cols, rows];
@@ -177,6 +180,7 @@ public class GameEngine
 
     public static int[,] Reverse(int[,] mat)
     {
+        ArgumentNullException.ThrowIfNull(mat);
         int rows = mat.GetLength(0);
         int cols = mat.GetLength(1);
         int[,] result = new int[rows, cols];
@@ -194,6 +198,7 @@ public class GameEngine
 
     public static bool AddTwo(int[,] mat, Random? random = null)
     {
+        ArgumentNullException.ThrowIfNull(mat);
         random ??= new Random();
         int size = mat.GetLength(0);
         List<(int Row, int Col)> emptyCells = new();
@@ -222,6 +227,7 @@ public class GameEngine
 
     public static GameState CheckGameState(int[,] mat)
     {
+        ArgumentNullException.ThrowIfNull(mat);
         int size = mat.GetLength(0);
 
         // Check for 2048 win cell

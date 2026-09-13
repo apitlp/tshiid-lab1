@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace Game2048.ViewModels;
 
-public static class BrushCache
+internal static class BrushCache
 {
     private static readonly ConcurrentDictionary<string, SolidColorBrush> _cache = new();
 

@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Game2048.ViewModels;
 
-public class RelayCommand : ICommand
+internal class RelayCommand : ICommand
 {
     private readonly Action _execute;
     private readonly Func<bool>? _canExecute;
@@ -25,7 +25,7 @@ public class RelayCommand : ICommand
     public void Execute(object? parameter) => _execute();
 }
 
-public class RelayCommand<T> : ICommand
+internal class RelayCommand<T> : ICommand
 {
     private readonly Action<T?> _execute;
     private readonly Predicate<T?>? _canExecute;

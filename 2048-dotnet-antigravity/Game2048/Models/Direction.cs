@@ -1,6 +1,6 @@
 namespace Game2048.Models;
 
-public enum Direction
+internal enum Direction
 {
     Up,
     Down,

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using Game2048.Models;
 
 namespace Game2048.ViewModels;
 
-public class MainViewModel : ViewModelBase
+internal class MainViewModel : ViewModelBase
 {
     public const int MinGridSize = 2;
     public const int MaxGridSize = 10;
@@ -16,7 +17,7 @@ public class MainViewModel : ViewModelBase
     private GameState _gameState;
     private bool _isMenuVisible = true;
     private bool _isPaused;
-    private string _gridSizeInput = DefaultGridSize.ToString();
+    private string _gridSizeInput = DefaultGridSize.ToString(CultureInfo.InvariantCulture);
     private string? _errorMessage;
 
     public ObservableCollection<TileViewModel> Tiles { get; } = new();
@@ -131,7 +132,7 @@ public class MainViewModel : ViewModelBase
             UpdateBoard();
             IsMenuVisible = false;
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
         {
             ErrorMessage = $"Error starting game: {ex.Message}";
         }
