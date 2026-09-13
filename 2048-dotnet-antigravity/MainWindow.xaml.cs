@@ -13,7 +13,34 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        Loaded += (_, _) => Focus();
+
+        Loaded += (_, _) =>
+        {
+            if (DataContext is MainViewModel vm && vm.IsMenuVisible)
+            {
+                GridSizeBox.Focus();
+                GridSizeBox.SelectAll();
+            }
+            else
+            {
+                Focus();
+            }
+        };
+
+        DataContextChanged += (_, _) =>
+        {
+            if (DataContext is MainViewModel vm)
+            {
+                vm.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(MainViewModel.IsMenuVisible) && !vm.IsMenuVisible)
+                    {
+                        Focus();
+                    }
+                };
+            }
+        };
+
         PreviewKeyDown += MainWindow_PreviewKeyDown;
     }
 
@@ -24,13 +51,20 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (e.Key == Key.Escape)
+        {
+            vm.ExecuteQuit();
+            e.Handled = true;
+            return;
+        }
+
+        if (vm.IsMenuVisible)
+        {
+            return;
+        }
+
         switch (e.Key)
         {
-            case Key.Escape:
-                vm.ExecuteQuit();
-                e.Handled = true;
-                break;
-
             case Key.B:
                 vm.ExecuteUndo();
                 e.Handled = true;
