@@ -1,0 +1,175 @@
+<Window x:Class="Game2048.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="2048"
+        Width="450"
+        Height="535"
+        MinWidth="400"
+        MinHeight="485"
+        Background="#faf8ef"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Up"
+                    Command="{Binding UpCommand}"/>
+        <KeyBinding Key="W"
+                    Command="{Binding UpCommand}"/>
+        <KeyBinding Key="I"
+                    Command="{Binding UpCommand}"/>
+        <KeyBinding Key="Down"
+                    Command="{Binding DownCommand}"/>
+        <KeyBinding Key="S"
+                    Command="{Binding DownCommand}"/>
+        <KeyBinding Key="K"
+                    Command="{Binding DownCommand}"/>
+        <KeyBinding Key="Left"
+                    Command="{Binding LeftCommand}"/>
+        <KeyBinding Key="A"
+                    Command="{Binding LeftCommand}"/>
+        <KeyBinding Key="J"
+                    Command="{Binding LeftCommand}"/>
+        <KeyBinding Key="Right"
+                    Command="{Binding RightCommand}"/>
+        <KeyBinding Key="D"
+                    Command="{Binding RightCommand}"/>
+        <KeyBinding Key="L"
+                    Command="{Binding RightCommand}"/>
+        <KeyBinding Key="B"
+                    Command="{Binding UndoCommand}"/>
+        <KeyBinding Key="Escape"
+                    Command="{Binding TogglePauseCommand}"/>
+    </Window.InputBindings>
+    <Grid Margin="20">
+        <Grid Visibility="{Binding IsMenuVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="2048"
+                           FontFamily="Verdana"
+                           FontSize="48"
+                           FontWeight="Bold"
+                           Foreground="#776e65"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Choose grid size"
+                           Margin="0,24,0,8"
+                           FontFamily="Verdana"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="#776e65"
+                           HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding GridSizeInput, UpdateSourceTrigger=PropertyChanged}"
+                         Width="110"
+                         Height="36"
+                         FontFamily="Verdana"
+                         FontSize="20"
+                         HorizontalContentAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding InputError}"
+                           Height="28"
+                           Margin="0,6,0,0"
+                           FontFamily="Verdana"
+                           FontSize="12"
+                           Foreground="#b23b2e"
+                           TextAlignment="Center"/>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0,14,0,0">
+                    <Button Content="Start"
+                            Command="{Binding StartCommand}"
+                            Width="110"
+                            Height="38"
+                            Margin="0,0,8,0"
+                            FontFamily="Verdana"
+                            FontSize="16"/>
+                    <Button Content="Exit"
+                            Command="{Binding ExitCommand}"
+                            Width="110"
+                            Height="38"
+                            Margin="8,0,0,0"
+                            FontFamily="Verdana"
+                            FontSize="16"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Visibility="{Binding IsGameVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="2048"
+                       FontFamily="Verdana"
+                       FontSize="48"
+                       FontWeight="Bold"
+                       Foreground="#776e65"/>
+            <TextBlock Grid.Row="1"
+                       Text="{Binding Status}"
+                       Height="30"
+                       FontFamily="Verdana"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#776e65"
+                       HorizontalAlignment="Center"/>
+            <Border Grid.Row="2"
+                    Background="#92877d"
+                    CornerRadius="6"
+                    Padding="10"
+                    Margin="0,4,0,0">
+                <ItemsControl ItemsSource="{Binding Tiles}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="{Binding DataContext.BoardSize, RelativeSource={RelativeSource AncestorType=Window}}"
+                                         Columns="{Binding DataContext.BoardSize, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding Background}"
+                                    CornerRadius="4"
+                                    Margin="5">
+                                <TextBlock Text="{Binding DisplayValue}"
+                                           Foreground="{Binding Foreground}"
+                                           FontFamily="Verdana"
+                                           FontSize="32"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+
+            <Grid Grid.RowSpan="3"
+                  Background="#ccfaf8ef"
+                  Visibility="{Binding IsPauseVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Paused"
+                               FontFamily="Verdana"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               Foreground="#776e65"
+                               HorizontalAlignment="Center"/>
+                    <Button Content="Resume"
+                            Command="{Binding ResumeCommand}"
+                            Width="140"
+                            Height="38"
+                            Margin="0,20,0,8"
+                            FontFamily="Verdana"
+                            FontSize="16"/>
+                    <Button Content="Exit"
+                            Command="{Binding ExitToMenuCommand}"
+                            Width="140"
+                            Height="38"
+                            Margin="0,8,0,0"
+                            FontFamily="Verdana"
+                            FontSize="16"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
