@@ -1,8 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
 using System.Windows;
 
-namespace _2048_dotnet_antigravity;
+namespace Game2048;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -10,4 +8,3 @@ namespace _2048_dotnet_antigravity;
 public partial class App : Application
 {
 }
-

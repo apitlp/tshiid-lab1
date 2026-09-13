@@ -2,9 +2,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using _2048_dotnet_antigravity.Models;
+using Game2048.Models;
 
-namespace _2048_dotnet_antigravity.ViewModels;
+namespace Game2048.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {

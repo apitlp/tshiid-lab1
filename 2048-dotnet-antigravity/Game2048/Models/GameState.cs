@@ -1,4 +1,4 @@
-namespace _2048_dotnet_antigravity.Models;
+namespace Game2048.Models;
 
 public enum GameState
 {

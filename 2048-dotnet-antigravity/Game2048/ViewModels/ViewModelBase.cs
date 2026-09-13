@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace _2048_dotnet_antigravity.ViewModels;
+namespace Game2048.ViewModels;
 
 public abstract class ViewModelBase : INotifyPropertyChanged
 {

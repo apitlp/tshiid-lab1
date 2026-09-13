@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace _2048_dotnet_antigravity.Models;
+namespace Game2048.Models;
 
 public class GameEngine
 {
@@ -21,6 +21,14 @@ public class GameEngine
         _random = random ?? new Random();
         _grid = new int[_size, _size];
         StartNewGame();
+    }
+
+    internal GameEngine(int[,] initialGrid, Random? random = null)
+    {
+        ArgumentNullException.ThrowIfNull(initialGrid);
+        _size = initialGrid.GetLength(0);
+        _random = random ?? new Random();
+        _grid = (int[,])initialGrid.Clone();
     }
 
     public void StartNewGame()

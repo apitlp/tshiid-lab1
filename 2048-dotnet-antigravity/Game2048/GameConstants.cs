@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace _2048_dotnet_antigravity;
+namespace Game2048;
 
 public static class GameConstants
 {

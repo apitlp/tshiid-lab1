@@ -1,12 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <RootNamespace>_2048_dotnet_antigravity</RootNamespace>
+    <RootNamespace>Game2048</RootNamespace>
+    <AssemblyName>Game2048</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Game2048.Tests" />
+  </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using System.Windows.Media;
 
-namespace _2048_dotnet_antigravity.ViewModels;
+namespace Game2048.ViewModels;
 
 public static class BrushCache
 {

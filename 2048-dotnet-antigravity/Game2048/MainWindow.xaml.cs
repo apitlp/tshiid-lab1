@@ -1,9 +1,9 @@
 using System.Windows;
 using System.Windows.Input;
-using _2048_dotnet_antigravity.Models;
-using _2048_dotnet_antigravity.ViewModels;
+using Game2048.Models;
+using Game2048.ViewModels;
 
-namespace _2048_dotnet_antigravity;
+namespace Game2048;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

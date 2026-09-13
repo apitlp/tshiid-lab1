@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-namespace _2048_dotnet_antigravity.ViewModels;
+namespace Game2048.ViewModels;
 
 public class RelayCommand : ICommand
 {
